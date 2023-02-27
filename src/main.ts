@@ -103,8 +103,14 @@ const serverHTML = async (config: Config, app: core.Express) => {
   app.get("/*", async (req, res, next) => {
     if (isStaticFilePath(req.path)) return next();
     try {
+      let requestedPath = req.path;
+      if (!req.path.endsWith("/")) {
+        res.redirect(`${req.path}/`);
+        return;
+      }
       const host = getViteHost(config);
-      const response = await fetch(host);
+      const url = `${host}${requestedPath}`;
+      const response = await fetch(url);
       let content = await response.text();
       content = content.replace(
         /(\/@react-refresh|\/@vite\/client)/g,
