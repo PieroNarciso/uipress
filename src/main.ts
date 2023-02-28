@@ -4,19 +4,39 @@ import fs from "fs";
 import path from "path";
 import vite from "vite";
 import colors from "picocolors";
+import { Routes } from "./router";
+import type { BuildOptions } from "vite";
 
 const { NODE_ENV } = process.env;
+
+const configFilePath = path.resolve(process.cwd(), "uipress.config.ts");
+
+if (fs.existsSync(configFilePath)) {
+  import(configFilePath);
+}
 
 type Config = {
   mode: "production" | "development";
   vitePort: number;
   clearScreen: boolean;
+  routes: Routes;
 };
+
+type InputOptions = NonNullable<
+  NonNullable<BuildOptions["rollupOptions"]>["input"]
+>;
 
 const config: Config = {
   mode: NODE_ENV === "production" ? "production" : "development",
   vitePort: 3001,
   clearScreen: false,
+  routes: [],
+};
+
+export const configRoutes = (routes: Routes) => {
+  routes.forEach((route) => {
+    config.routes.push(route);
+  });
 };
 
 const getViteHost = (config: Config) => {
@@ -100,31 +120,48 @@ const serverHTML = async (config: Config, app: core.Express) => {
     });
     return;
   }
-  app.get("/*", async (req, res, next) => {
-    if (isStaticFilePath(req.path)) return next();
-    try {
-      let requestedPath = req.path;
-      if (!req.path.endsWith("/")) {
-        res.redirect(`${req.path}/`);
-        return;
+
+  config.routes.forEach((route) => {
+    app.get(route.path, async (req, res, next) => {
+      if (isStaticFilePath(req.path)) return next();
+      try {
+        let requestedPath = req.path;
+        if (!req.path.endsWith("/")) {
+          res.redirect(`${req.path}/`);
+          return;
+        }
+        const host = getViteHost(config);
+        const url = `${host}${requestedPath}`;
+        const response = await fetch(url);
+        let content = await response.text();
+        content = content.replace(
+          /(\/@react-refresh|\/@vite\/client)/g,
+          `${getViteHost(config)}$1`
+        );
+        res.header("Content-Type", "text/html").send(content);
+      } catch (e) {
+        next();
       }
-      const host = getViteHost(config);
-      const url = `${host}${requestedPath}`;
-      const response = await fetch(url);
-      let content = await response.text();
-      content = content.replace(
-        /(\/@react-refresh|\/@vite\/client)/g,
-        `${getViteHost(config)}$1`
-      );
-      res.header("Content-Type", "text/html").send(content);
-    } catch (e) {
-      next();
-    }
+    });
   });
+};
+
+export const getViteRoutes = (): InputOptions => {
+  const routes: InputOptions = {};
+
+  for (const route of config.routes) {
+    routes[route.name] = route.file;
+  }
+
+  return routes;
 };
 
 export const setConfig = (c: Partial<Config>) => {
   Object.assign(config, c);
+};
+
+export const getConfig = () => {
+  return config;
 };
 
 export const listen = (
