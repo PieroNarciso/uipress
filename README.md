@@ -54,6 +54,28 @@ setConfig({
 });
 ```
 
+Inject uipress plugin to vite
+
+```js
+import { defineConfig } from "vite";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
+import { uiPressPlugin } from "uipress";
+import path from "path";
+
+const root = path.resolve(__dirname, "src/client/pages");
+
+/** @type {import('vite').UserConfig} */
+export default defineConfig({
+  plugins: [svelte(), uiPressPlugin()],
+  root,
+  build: {
+    manifest: true,
+    outDir: path.resolve(__dirname, "dist"),
+  },
+});
+```
+
+
 Example of project structure
 
 ```
@@ -64,17 +86,14 @@ Example of project structure
 │   └── vite.svg
 ├── src
 │   ├── client
-│   │   ├── assets
-│   │   │   └── svelte.svg
-│   │   ├── lib
-│   │   │   └── Counter.svelte
 │   │   ├── pages
+│   │   │   ├── App.svelte
+│   │   │   ├── index.html
+│   │   │   ├── main.js
 │   │   │   ├── clients
 │   │   │   │   ├── App.svelte
 │   │   │   │   ├── index.html
 │   │   │   │   └── main.js
-│   │   │   ├── index.html
-│   │   │   ├── main.js
 │   │   │   └── products
 │   │   │       ├── App.svelte
 │   │   │       ├── index.html
