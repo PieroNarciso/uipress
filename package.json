@@ -2,10 +2,11 @@
   "name": "uipress",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/main.js",
+  "main": "dist/commonjs/main.js",
+  "module": "dist/esnext/main.js",
   "types": "dist/main.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc && tsc --build tsconfig.cjs.json"
   },
   "repository": {
     "type": "git",

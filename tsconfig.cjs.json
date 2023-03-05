@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "esnext",
+    "module": "commonjs",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -9,7 +9,7 @@
     "outDir": "dist",
     "declaration": true,
     "moduleResolution": "node",
-    "outDir": "dist/esnext"
+    "outDir": "dist/commonjs"
   },
   "include": ["src"],
   "exclude": ["node_modules"]
