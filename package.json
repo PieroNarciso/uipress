@@ -1,12 +1,14 @@
 {
-  "name": "uipress",
-  "version": "1.0.0",
-  "description": "",
+  "name": "@dxiorg/uipress",
+  "version": "0.0.1",
+  "description": "UI Press tooling",
+  "private": false,
   "main": "dist/commonjs/main.js",
   "module": "dist/esnext/main.js",
   "types": "dist/main.d.ts",
   "scripts": {
-    "build": "tsc && tsc --build tsconfig.cjs.json"
+    "build": "tsc && tsc --build tsconfig.cjs.json",
+    "release": "yarn build && changeset publish"
   },
   "repository": {
     "type": "git",
@@ -20,6 +22,7 @@
   },
   "homepage": "https://github.com/PieroNarciso/uipress#readme",
   "devDependencies": {
+    "@changesets/cli": "^2.26.0",
     "@types/express": "^4.17.17",
     "@types/node": "^18.14.0",
     "picocolors": "^1.0.0",
