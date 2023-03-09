@@ -33,7 +33,7 @@ const startDevServer = async (config: Config) => {
 };
 
 const serveStatic = async (config: Config, app: core.Express) => {
-  info(`Running in ${config.mode} mode`);
+  info(`Running in ${config.mode} mode!`);
   if (config.mode === "production") {
     const viteConfig = await vite.resolveConfig({}, "build");
     const distPath = path.resolve(viteConfig.root, viteConfig.build.outDir);
