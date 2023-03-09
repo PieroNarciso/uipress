@@ -5,7 +5,7 @@
   "private": false,
   "main": "dist/commonjs/main.js",
   "module": "dist/esnext/main.js",
-  "types": "dist/main.d.ts",
+  "types": "dist/esnext/main.d.ts",
   "scripts": {
     "build": "tsc && tsc --build tsconfig.cjs.json",
     "release": "yarn build && changeset publish"
