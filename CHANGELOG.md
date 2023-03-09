@@ -1,5 +1,11 @@
 # @dxiorg/uipress
 
+## 0.0.5
+
+### Patch Changes
+
+- 34c0236: Log stack routes express
+
 ## 0.0.4
 
 ### Patch Changes
