@@ -1,5 +1,11 @@
 # @dxiorg/uipress
 
+## 0.0.3
+
+### Patch Changes
+
+- a9e0ed9: Fix production build
+
 ## 0.0.2
 
 ### Patch Changes
