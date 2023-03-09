@@ -1,5 +1,11 @@
 # @dxiorg/uipress
 
+## 0.0.6
+
+### Patch Changes
+
+- f3b195e: Test commit release
+
 ## 0.0.5
 
 ### Patch Changes

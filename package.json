@@ -1,6 +1,6 @@
 {
   "name": "@dxiorg/uipress",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "UI Press tooling",
   "private": false,
   "main": "dist/commonjs/main.js",
