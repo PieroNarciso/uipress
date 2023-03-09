@@ -103,6 +103,7 @@ const serverHTML = async (config: Config, app: core.Express) => {
       });
     });
   }
+  console.log(app._router.stack)
 };
 
 export const getViteRoutes = (): InputOptions => {
