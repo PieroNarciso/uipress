@@ -68,6 +68,8 @@ const serveStatic = async (config: Config, app: core.Express) => {
 };
 
 const serverHTML = async (config: Config, app: core.Express) => {
+  config.routes.sort((a, b) => (a.path > b.path ? -1 : 1));
+
   if (config.mode === "production") {
     const viteConfig = await vite.resolveConfig({}, "build");
     const distPath = path.resolve(viteConfig.root, viteConfig.build.outDir);
@@ -75,7 +77,7 @@ const serverHTML = async (config: Config, app: core.Express) => {
     config.routes.forEach((route) => {
       const routePath = `${addTralingSlash(route.path)}*`;
       app.get(routePath, async (_, res) => {
-        const pathIndex = path.resolve(distPath, route.path, "index.html");
+        const pathIndex = path.join(distPath, route.path, "index.html");
         res.sendFile(pathIndex);
       });
     });
